@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('/');
+  res.render('index', {title: "Tabletop Role-playing games online"});
 });
 
 module.exports = router;
