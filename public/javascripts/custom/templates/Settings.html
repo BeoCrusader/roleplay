@@ -3,23 +3,85 @@
 <div layout="column"  layout-margin layout-wrap layout-fill
      ng-cloak>
 
-    <md-card md-whiteframe="5"
+    <md-card ng-repeat="setting in settings" md-whiteframe="5"
              flex="70"
              layout="row" layout-align="space-around center">
-        <img flex="30" src="/images/fallout.png" class="md-card-image "/>
-        <div layout="column">
-            <md-card-content flex>Lorem ipsum bla bla bla... Lorem ipsum bla bla bla... Lorem ipsum bla bla bla... Lorem ipsum bla bla bla... Lorem ipsum bla bla bla... Lorem ipsum bla bla bla... Lorem ipsum bla bla bla... Lorem ipsum bla bla bla... Lorem ipsum bla bla bla... Lorem ipsum bla bla bla... Lorem ipsum bla bla bla... Lorem ipsum bla bla bla... Lorem ipsum bla bla bla... Lorem ipsum bla bla bla... Lorem ipsum bla bla bla... Lorem ipsum bla bla bla... Lorem ipsum bla bla bla... Lorem ipsum bla bla bla... Lorem ipsum bla bla bla... Lorem ipsum bla bla bla... Lorem ipsum bla bla bla... Lorem ipsum bla bla bla... Lorem ipsum bla bla bla... Lorem ipsum bla bla bla... </md-card-content>
-            <md-card-actions layout="row" layout-align="end center">
+
+        <img ng-show="!editing[$index]" flex="30" class="md-card-image" data-ng-src="data:image/png;base64,{{setting.picture.base64}}"/>
+        <md-button ng-show="editing[$index]">
+            <label for="file-input">Выбрать файл</label>
+        </md-button>
+        <input id="file-input" type="file" ng-model="setting.picture" base-sixty-four-input
+               maxsize="4096" ng-show="false" flex="30" class="md-card-image md-button">
+        <span ng-show="form.files.$error.maxsize">Files must not exceed 5000 KB</span>
+        <div layout="column" flex>
+            <md-card-header >
+                <md-card-header-text>
+                    <md-title ng-show="!editing[$index]" >{{setting.name}}</md-title>
+                    <md-input-container ng-show="editing[$index]" flex class="md-block">
+                        <label>Название сеттинга</label>
+                        <input type="text" ng-show="editing[$index]" ng-model="setting.name">
+                    </md-input-container>
+                </md-card-header-text>
+            </md-card-header>
+            <md-card-content flex ng-show="!editing[$index]">{{setting.story}}</md-card-content>
+            <md-card-content flex ng-show="editing[$index]">
+                <md-input-container flex class="md-block">
+                    <label>Описание сеттинга</label>
+                    <textarea ng-model="setting.story" md-maxlength="2000" rows="5"></textarea>
+                </md-input-container>
+                <!--<textarea flex ng-model="setting.story">{{setting.story}}</textarea>-->
+            </md-card-content>
+
+            <md-card-actions ng-show="!editing[$index]" layout="row" layout-align="end center">
                 <md-button>Активные игры</md-button>
                 <md-button>Архив</md-button>
+                <md-button ng-click="edit($index)">Изменить</md-button>
+            </md-card-actions>
+            <md-card-actions ng-show="editing[$index]" layout="row" layout-align="end center">
+                <md-button ng-click="cancel($index)">Отмена</md-button>
+                <md-button ng-click="update($index)">Сохранить</md-button>
             </md-card-actions>
         </div>
+
     </md-card>
 
     <!--A plus sign to add settings-->
 
+    <md-card ng-show="adding" md-whiteframe="5"
+             flex="70"
+             layout="row" layout-align="space-around center">
+        <md-button>
+            <label for="new-file-input">Выбрать файл</label>
+        </md-button>
+        <input id="new-file-input" type="file" ng-model="newSetting.picture" base-sixty-four-input maxsize="4096"
+               flex="30" ng-show="false" class="md-card-image">
+        <span ng-show="form.files.$error.maxsize">Files must not exceed 4096 KB</span>
+        <div layout="column" flex>
+            <md-card-header >
+                <md-card-header-text>
+                    <md-input-container flex class="md-block">
+                        <label>Название сеттинга</label>
+                        <input type="text" ng-model="newSetting.name">
+                    </md-input-container>
+                </md-card-header-text>
+            </md-card-header>
+            <md-card-content flex>
+                <md-input-container flex class="md-block">
+                    <label>Описание сеттинга</label>
+                    <textarea ng-model="newSetting.story" md-maxlength="2000" rows="5"></textarea>
+                </md-input-container>
+            </md-card-content>
+
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button ng-click="cancelAdding()">Отмена</md-button>
+                <md-button ng-click="add()">Добавить</md-button>
+            </md-card-actions>
+        </div>
+    </md-card>
+
     <div layout layout-fill layout-align="end start">
-        <md-button class="md-fab md-mini" aria-label="Add new">
+        <md-button class="md-fab md-mini" ng-click="startAdding()" aria-label="Add new" >
             <md-icon md-svg-icon="add"></md-icon>
         </md-button>
     </div>
