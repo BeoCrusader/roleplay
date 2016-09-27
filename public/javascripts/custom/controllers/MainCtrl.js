@@ -29,6 +29,7 @@ angular.module('Settings', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache
             $scope.newSetting = {};
 
             $scope.edit = function(index){
+                console.log(index);
                 $scope.editing[index] = angular.copy($scope.settings[index]);
             };
 
@@ -38,6 +39,7 @@ angular.module('Settings', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache
             };
 
             $scope.update = function(index){
+                console.log(index);
                 var setting = $scope.settings[index];
                 console.log(setting.picture);
                 Settings.update({id: setting._id}, setting);
@@ -69,8 +71,9 @@ angular.module('Settings', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache
                 $scope.adding = false;
             }
 
-        }])
+        }]);
 
+/*
     .directive("fileread", [function () {
         return {
             scope: {
@@ -88,4 +91,4 @@ angular.module('Settings', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache
                 });
             }
         }
-    }]);
+    }]);*/

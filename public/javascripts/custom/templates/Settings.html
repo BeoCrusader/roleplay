@@ -3,18 +3,23 @@
 <div layout="column"  layout-margin layout-wrap layout-fill
      ng-cloak>
 
-    <md-card ng-repeat="setting in settings" md-whiteframe="5"
-             flex="70"
+    <md-whiteframe ng-repeat="setting in settings" md-whiteframe="5"
              layout="row" layout-align="space-around center">
 
-        <img ng-show="!editing[$index]" flex="30" class="md-card-image" data-ng-src="data:image/png;base64,{{setting.picture.base64}}"/>
+        <div flex="30" >
+            <img ng-show="!editing[$index]"
+                 data-ng-src="data:image/png;base64,{{setting.picture.base64}}">
+            <!--<div class="md-media-lg card-media"></div>-->
+        </div>
+
         <md-button ng-show="editing[$index]">
-            <label for="file-input">Выбрать файл</label>
+            <label for="file-input-{{$index}}">Выбрать файл</label>
         </md-button>
-        <input id="file-input" type="file" ng-model="setting.picture" base-sixty-four-input
-               maxsize="4096" ng-show="false" flex="30" class="md-card-image md-button">
+        <input id="file-input-{{$index}}" type="file" ng-model="settings[$index].picture" base-sixty-four-input
+               maxsize="4096" flex="30" ng-show="false"  class="md-card-image"
+               >
         <span ng-show="form.files.$error.maxsize">Files must not exceed 5000 KB</span>
-        <div layout="column" flex>
+        <div layout="column" flex="70">
             <md-card-header >
                 <md-card-header-text>
                     <md-title ng-show="!editing[$index]" >{{setting.name}}</md-title>
@@ -44,18 +49,18 @@
             </md-card-actions>
         </div>
 
-    </md-card>
+    </md-whiteframe>
 
     <!--A plus sign to add settings-->
 
     <md-card ng-show="adding" md-whiteframe="5"
              flex="70"
              layout="row" layout-align="space-around center">
-        <md-button>
-            <label for="new-file-input">Выбрать файл</label>
-        </md-button>
-        <input id="new-file-input" type="file" ng-model="newSetting.picture" base-sixty-four-input maxsize="4096"
-               flex="30" ng-show="false" class="md-card-image">
+        <!--<md-button>-->
+            <!--<label for="new-file-input">Выбрать файл</label>-->
+        <!--</md-button>-->
+        <input type="file" ng-model="newSetting.picture" base-sixty-four-input maxsize="4096"
+               flex="30" class="md-card-image">
         <span ng-show="form.files.$error.maxsize">Files must not exceed 4096 KB</span>
         <div layout="column" flex>
             <md-card-header >
